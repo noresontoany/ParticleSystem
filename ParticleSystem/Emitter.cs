@@ -80,6 +80,7 @@ namespace ParticleSystem
             foreach (var particle in particles)
             {
                 particle.Draw(g);
+
                 //MessageBox.Show("asd");
             }
         }
