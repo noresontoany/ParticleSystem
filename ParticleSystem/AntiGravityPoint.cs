@@ -21,4 +21,14 @@ namespace ParticleSystem
             particle.SpeedY -= gY * Power / r2; // и тут
         }
     }
+
+
+
+
+
+
+
+
+
+    
 }
