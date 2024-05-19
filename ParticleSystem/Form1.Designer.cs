@@ -43,6 +43,7 @@
             addBounce = new Button();
             ClearBounce = new Button();
             MouseBou = new Button();
+            SnowOne = new Button();
             ((System.ComponentModel.ISupportInitialize)picDisplay).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbDirection).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbGraviton).BeginInit();
@@ -182,11 +183,22 @@
             MouseBou.UseVisualStyleBackColor = true;
             MouseBou.Click += MouseBou_Click;
             // 
+            // SnowOne
+            // 
+            SnowOne.Location = new Point(1127, 435);
+            SnowOne.Name = "SnowOne";
+            SnowOne.Size = new Size(75, 23);
+            SnowOne.TabIndex = 13;
+            SnowOne.Text = "Snow";
+            SnowOne.UseVisualStyleBackColor = true;
+            SnowOne.Click += SnowOne_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1429, 541);
+            Controls.Add(SnowOne);
             Controls.Add(MouseBou);
             Controls.Add(ClearBounce);
             Controls.Add(addBounce);
@@ -227,5 +239,6 @@
         private Button addBounce;
         private Button ClearBounce;
         private Button MouseBou;
+        private Button SnowOne;
     }
 }

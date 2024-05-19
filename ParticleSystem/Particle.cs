@@ -28,6 +28,7 @@ namespace ParticleSystem
         public Particle()
         {
             // я не трогаю координаты X, Y потому что хочу, чтобы все частицы возникали из одного места
+                
             var direction = (double)rand.Next(360);
             var speed = 1 + rand.Next(10);
 

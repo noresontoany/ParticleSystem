@@ -11,7 +11,7 @@ namespace ParticleSystem
         List<Emitter> emitters = new List<Emitter>();
         Emitter emitter;
 
-
+        TopEmitter topEmitter;
 
 
 
@@ -26,11 +26,12 @@ namespace ParticleSystem
         bool AddGravitonMode = false;
         bool PortalMode = false;
         bool BounceMode = false;
+        bool SnowOneMode = true;
 
         Portal portal;
         GravityPoint point;
         BouncePoint pointBounce;
-        
+
 
         GravityPoint Mousepoint;
         BouncePoint MousepointBounce;
@@ -42,20 +43,21 @@ namespace ParticleSystem
             picDisplay.MouseWheel += picDisplay_MouseWheel;
 
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
-            this.emitter = new Emitter // создаю эмиттер и прив€зываю его к полю emitter
+            this.emitter = new TopEmitter // создаю эмиттер и прив€зываю его к полю emitter
             {
                 Direction = 0,
                 Spreading = 10,
-                SpeedMin = 3,
-                SpeedMax = 5,
+                SpeedMin = 10,
+                SpeedMax = 10,
                 ColorFrom = Color.Gold,
                 ColorTo = Color.FromArgb(0, Color.Red),
                 ParticlesPerTick = 10,
-                X = 30,
-                Y = 30,
+                X = 150,
+                Y = 100,
             };
 
             emitters.Add(this.emitter); // все равно добавл€ю в список emitters, чтобы он рендерилс€ и обновл€лс€
+
 
         }
 
@@ -91,7 +93,7 @@ namespace ParticleSystem
             else if (MouseBounceMode)
             {
                 MousepointBounce.X = e.X;
-                MousepointBounce.Y = e.Y; 
+                MousepointBounce.Y = e.Y;
             }
 
         }
@@ -105,14 +107,6 @@ namespace ParticleSystem
         private void tbGraviton_Scroll(object sender, EventArgs e)
         {
 
-        }
-
-
-
-        private bool ModeManager()
-        {
-            bool PortalMode = false;
-            return !(PortalMode || AddGravitonMode);
         }
 
         //private void MouseClicks (object sender)
@@ -239,9 +233,6 @@ namespace ParticleSystem
 
 
         }
-
-
-
         private void portalClear_Click(object sender, EventArgs e)
         {
             emitter.impactPoints.Remove(portal);
@@ -249,7 +240,7 @@ namespace ParticleSystem
         }
         private void portalBtn_Click(object sender, EventArgs e)
         {
-            if (!PortalMode)
+            if (!PortalMode && portal == null)
             {
 
                 PortalMode = true;
@@ -264,14 +255,17 @@ namespace ParticleSystem
                 };
                 emitter.impactPoints.Add(portal);
             }
+            else if (!PortalMode)
+            {
+                PortalMode = true;
+                AddGravitonMode = false;
+                BounceMode = false;
+            }
             else
             {
                 PortalMode = false;
             }
         }
-
-
-
         private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
         {
             int ps = 0;
@@ -297,10 +291,6 @@ namespace ParticleSystem
 
             }
         }
-
-
-
-
         private void addBounce_Click(object sender, EventArgs e)
         {
 
@@ -329,13 +319,6 @@ namespace ParticleSystem
 
             }
         }
-
-
-
-
-
-
-
         private void MouseBou_Click(object sender, EventArgs e)
         {
             if (!MouseBounceMode)
@@ -362,7 +345,7 @@ namespace ParticleSystem
             if (!MouseGravitoMode)
             {
                 MouseGravitoMode = true;
-              
+
                 MouseBounceMode = false;
                 Mousepoint = new GravityPoint
                 {
@@ -379,5 +362,65 @@ namespace ParticleSystem
 
             }
         }
+        private void SnowOne_Click(object sender, EventArgs e)
+        {
+             
+            List<IImpactPoint> impactPoints = new List<IImpactPoint>(emitter.impactPoints);
+            if (SnowOneMode)
+            {
+                if (this.emitter != null)
+                {
+                  
+                    emitters.Remove(emitter);
+                }
+                picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
+                this.emitter = new TopEmitter // создаю эмиттер и прив€зываю его к полю emitter
+                {
+                    Width = picDisplay.Width,
+                    Direction = 0,
+                    Spreading = 10,
+                    SpeedMin = 10,
+                    SpeedMax = 10,
+                    ColorFrom = Color.Gold,
+                    ColorTo = Color.FromArgb(0, Color.Red),
+                    ParticlesPerTick = 10,
+                    X = 150,
+                    Y = 100,
+                };
+                this.emitter.impactPoints = impactPoints;
+                emitters.Add(this.emitter);
+                SnowOneMode = false;
+                this.SnowOne.Text = "One";
+            }
+            else
+            {
+                if (this.emitter != null)
+                {
+                    emitters.Remove(this.topEmitter);
+                }
+                this.emitter = new Emitter // создаю эмиттер и прив€зываю его к полю emitter
+                {
+                    
+                    Direction = 0,
+                    Spreading = 10,
+                    SpeedMin = 10,
+                    SpeedMax = 10,
+                    ColorFrom = Color.Gold,
+                    ColorTo = Color.FromArgb(0, Color.Red),
+                    ParticlesPerTick = 10,
+                    X = 150,
+                    Y = 100,
+                };
+
+                this.emitter.impactPoints = impactPoints;
+                emitters.Add(this.emitter);
+                SnowOneMode = true;
+                this.SnowOne.Text = "Snow";
+            }
+        }
+
+        
+
+
     }
 }
