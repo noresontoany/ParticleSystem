@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace ParticleSystem
 {
@@ -9,6 +10,8 @@ namespace ParticleSystem
         //List<Particle> particles = new List<Particle>();
         //Emitter emitter = new Emitter(); // добавили эмиттер
         List<Emitter> emitters = new List<Emitter>();
+        List<ColorPoint> colorPoints = new List<ColorPoint>();
+
         Emitter emitter;
 
         TopEmitter topEmitter;
@@ -17,11 +20,9 @@ namespace ParticleSystem
 
         bool MouseGravitoMode = false;
         bool MouseBounceMode = false;
-        Dictionary<string, bool> people = new Dictionary<string, bool>()
-        {
-            {"portal", false},
-            {"addgrav", false}
-        };
+
+
+
 
         bool AddGravitonMode = false;
         bool PortalMode = false;
@@ -29,9 +30,9 @@ namespace ParticleSystem
         bool ColorMode = false;
 
 
-
         bool SnowOneMode = true;
-        
+
+
 
         Portal portal;
         GravityPoint point;
@@ -42,11 +43,19 @@ namespace ParticleSystem
         BouncePoint MousepointBounce;
         ColorPoint pointColor;
 
+
+
+
         public Form1()
         {
             InitializeComponent();
 
             picDisplay.MouseWheel += picDisplay_MouseWheel;
+
+            ColorsBarH.Maximum = picDisplay.Width;
+            ColorsBarV.Maximum = picDisplay.Height;
+
+          
 
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
             this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
@@ -77,6 +86,16 @@ namespace ParticleSystem
                 emitter.Render(g); // а тут теперь рендерим через эмиттер
             }
 
+            if (colorPoints.Count() < 1)
+            {
+                ColorsBarH.Visible = false;
+                ColorsBarV.Visible = false;
+            }
+            else
+            {
+                ColorsBarH.Visible = true;
+                ColorsBarV.Visible = true;
+            }
 
             picDisplay.Invalidate();
 
@@ -210,14 +229,16 @@ namespace ParticleSystem
                 switch (e.Button)
                 {
                     case MouseButtons.Left:
-
-                        pointColor = new ColorPoint
+                        Random rand = new Random();
+                        pointColor = new ColorPoint(Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255)))
                         {
                             X = e.X,
                             Y = e.Y,
                         };
 
                         emitter.impactPoints.Add(pointColor);
+                        colorPoints.Add(pointColor);
+                        numsColor.Maximum++;
                         break;
 
                     case MouseButtons.Right:
@@ -230,6 +251,8 @@ namespace ParticleSystem
                             }
                         }
                         emitter.impactPoints.Remove(p);
+                        colorPoints.Remove(p);
+                        numsColor.Maximum--;
                         break;
 
                 }
@@ -318,14 +341,10 @@ namespace ParticleSystem
 
             foreach (var point in emitter.impactPoints)
             {
-
-
                 if (point.MouseIn(e))
                 {
                     point.Power += ps;
                 }
-
-
             }
         }
         private void addBounce_Click(object sender, EventArgs e)
@@ -429,7 +448,7 @@ namespace ParticleSystem
                 emitters.Add(this.emitter);
                 SnowOneMode = false;
                 this.SnowOne.Text = "One";
-                ParticleColorful.p = false;
+                //ParticleColorful.p = false;
             }
             else
             {
@@ -455,13 +474,12 @@ namespace ParticleSystem
                 emitters.Add(this.emitter);
                 SnowOneMode = true;
                 this.SnowOne.Text = "Snow";
-                ParticleColorful.p = true;
+                //ParticleColorful.p = true;
             }
         }
-
         private void addColor_Click(object sender, EventArgs e)
         {
-            if (!ColorMode )
+            if (!ColorMode)
             {
                 AddGravitonMode = false;
                 PortalMode = false;
@@ -472,6 +490,19 @@ namespace ParticleSystem
             {
                 ColorMode = false;
             }
+        }
+
+        private void ColorsBarH_Scroll(object sender, EventArgs e)
+        {
+            int val = (int)numsColor.Value;
+            colorPoints[val].X = ColorsBarH.Value;
+        }
+
+        private void ColorsBarV_Scroll(object sender, EventArgs e)
+        {
+            int val = (int)numsColor.Value;
+            colorPoints[val].Y = ColorsBarV.Value;
+
         }
     }
 }

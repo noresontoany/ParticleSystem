@@ -10,9 +10,13 @@ namespace ParticleSystem
     {
 
 
-        public static Random rand = new Random();
+        
         Color clr;
         // а сюда по сути скопировали с минимальными правками то что было в UpdateState
+        public ColorPoint(Color clr)
+        {
+            this.clr = clr;
+        }
         public override void ImpactParticle(Particle particle)
         {
             float gX = X - particle.X;
@@ -23,14 +27,16 @@ namespace ParticleSystem
             {
 
                 //particle.clr = clr;
-              
+                particle.FromColor = clr;
+                particle.ToColor = clr;
+
             }
         }
         public override void Render(Graphics g)
         {
             // буду рисовать окружность с диаметром равным Power
             
-            clr = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255));
+             
             g.DrawEllipse(
                    new Pen(clr),
                    X - Power / 2,

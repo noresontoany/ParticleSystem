@@ -33,8 +33,6 @@
             timer1 = new System.Windows.Forms.Timer(components);
             tbDirection = new TrackBar();
             lblDirection = new Label();
-            tbGraviton = new TrackBar();
-            tbGraviton2 = new TrackBar();
             portalBtn = new Button();
             addGraviton = new Button();
             MouseGravito = new Button();
@@ -45,10 +43,14 @@
             MouseBou = new Button();
             SnowOne = new Button();
             addColor = new Button();
+            ColorsBarV = new TrackBar();
+            ColorsBarH = new TrackBar();
+            numsColor = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)picDisplay).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbDirection).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)tbGraviton).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)tbGraviton2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ColorsBarV).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ColorsBarH).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numsColor).BeginInit();
             SuspendLayout();
             // 
             // picDisplay
@@ -86,23 +88,6 @@
             lblDirection.TabIndex = 2;
             lblDirection.Text = "°";
             // 
-            // tbGraviton
-            // 
-            tbGraviton.Location = new Point(610, 482);
-            tbGraviton.Maximum = 100;
-            tbGraviton.Name = "tbGraviton";
-            tbGraviton.Size = new Size(121, 45);
-            tbGraviton.TabIndex = 3;
-            tbGraviton.Scroll += tbGraviton_Scroll;
-            // 
-            // tbGraviton2
-            // 
-            tbGraviton2.Location = new Point(441, 482);
-            tbGraviton2.Maximum = 100;
-            tbGraviton2.Name = "tbGraviton2";
-            tbGraviton2.Size = new Size(104, 45);
-            tbGraviton2.TabIndex = 4;
-            // 
             // portalBtn
             // 
             portalBtn.ForeColor = SystemColors.ActiveCaptionText;
@@ -116,12 +101,13 @@
             // 
             // addGraviton
             // 
+            addGraviton.BackColor = Color.Red;
             addGraviton.Location = new Point(1127, 92);
             addGraviton.Name = "addGraviton";
             addGraviton.Size = new Size(75, 23);
             addGraviton.TabIndex = 6;
             addGraviton.Text = "AddGraviton";
-            addGraviton.UseVisualStyleBackColor = true;
+            addGraviton.UseVisualStyleBackColor = false;
             addGraviton.Click += addGraviton_Click;
             // 
             // MouseGravito
@@ -156,12 +142,13 @@
             // 
             // addBounce
             // 
+            addBounce.BackColor = Color.FromArgb(128, 128, 255);
             addBounce.Location = new Point(1127, 147);
             addBounce.Name = "addBounce";
             addBounce.Size = new Size(75, 23);
             addBounce.TabIndex = 10;
             addBounce.Text = "addBounce";
-            addBounce.UseVisualStyleBackColor = true;
+            addBounce.UseVisualStyleBackColor = false;
             addBounce.Click += addBounce_Click;
             // 
             // ClearBounce
@@ -204,11 +191,39 @@
             addColor.UseVisualStyleBackColor = true;
             addColor.Click += addColor_Click;
             // 
+            // ColorsBarV
+            // 
+            ColorsBarV.Location = new Point(1255, 305);
+            ColorsBarV.Name = "ColorsBarV";
+            ColorsBarV.Orientation = Orientation.Vertical;
+            ColorsBarV.Size = new Size(45, 116);
+            ColorsBarV.TabIndex = 15;
+            ColorsBarV.Scroll += ColorsBarV_Scroll;
+            // 
+            // ColorsBarH
+            // 
+            ColorsBarH.Location = new Point(1127, 254);
+            ColorsBarH.Name = "ColorsBarH";
+            ColorsBarH.Size = new Size(104, 45);
+            ColorsBarH.TabIndex = 16;
+            ColorsBarH.Scroll += ColorsBarH_Scroll;
+            // 
+            // numsColor
+            // 
+            numsColor.Location = new Point(1127, 305);
+            numsColor.Maximum = new decimal(new int[] { 0, 0, 0, 0 });
+            numsColor.Name = "numsColor";
+            numsColor.Size = new Size(120, 23);
+            numsColor.TabIndex = 17;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1429, 541);
+            Controls.Add(numsColor);
+            Controls.Add(ColorsBarH);
+            Controls.Add(ColorsBarV);
             Controls.Add(addColor);
             Controls.Add(SnowOne);
             Controls.Add(MouseBou);
@@ -219,8 +234,6 @@
             Controls.Add(MouseGravito);
             Controls.Add(addGraviton);
             Controls.Add(portalBtn);
-            Controls.Add(tbGraviton2);
-            Controls.Add(tbGraviton);
             Controls.Add(lblDirection);
             Controls.Add(tbDirection);
             Controls.Add(picDisplay);
@@ -229,8 +242,9 @@
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)picDisplay).EndInit();
             ((System.ComponentModel.ISupportInitialize)tbDirection).EndInit();
-            ((System.ComponentModel.ISupportInitialize)tbGraviton).EndInit();
-            ((System.ComponentModel.ISupportInitialize)tbGraviton2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ColorsBarV).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ColorsBarH).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numsColor).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -241,8 +255,6 @@
         private System.Windows.Forms.Timer timer1;
         private TrackBar tbDirection;
         private Label lblDirection;
-        private TrackBar tbGraviton;
-        private TrackBar tbGraviton2;
         private Button portalBtn;
         private Button addGraviton;
         private Button MouseGravito;
@@ -253,5 +265,8 @@
         private Button MouseBou;
         private Button SnowOne;
         private Button addColor;
+        private TrackBar ColorsBarV;
+        private TrackBar ColorsBarH;
+        private NumericUpDown numsColor;
     }
 }

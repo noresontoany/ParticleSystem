@@ -127,7 +127,10 @@ namespace ParticleSystem
             particle.X = X;
             particle.Y = Y;
 
-            var direction = Direction
+            particle.FromColor = Color.White; // начальный цвет частицы
+            particle.ToColor = Color.FromArgb(0, Color.Black); // конечный цвет частиц
+
+        var direction = Direction
                 + (double)Particle.rand.Next(Spreading)
                 - Spreading / 2;
 
@@ -141,7 +144,8 @@ namespace ParticleSystem
 
         public virtual Particle CreateParticle()
         {
-            var particle = new ParticleColorful();
+            //var particle = new ParticleColorful();
+            var particle = new Particle();
             particle.FromColor = ColorFrom;
             particle.ToColor = ColorTo;
 
