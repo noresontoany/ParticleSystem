@@ -26,7 +26,12 @@ namespace ParticleSystem
         bool AddGravitonMode = false;
         bool PortalMode = false;
         bool BounceMode = false;
+        bool ColorMode = false;
+
+
+
         bool SnowOneMode = true;
+        
 
         Portal portal;
         GravityPoint point;
@@ -35,6 +40,7 @@ namespace ParticleSystem
 
         GravityPoint Mousepoint;
         BouncePoint MousepointBounce;
+        ColorPoint pointColor;
 
         public Form1()
         {
@@ -43,7 +49,7 @@ namespace ParticleSystem
             picDisplay.MouseWheel += picDisplay_MouseWheel;
 
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
-            this.emitter = new TopEmitter // создаю эмиттер и привязываю его к полю emitter
+            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
             {
                 Direction = 0,
                 Spreading = 10,
@@ -199,6 +205,35 @@ namespace ParticleSystem
 
                 }
             }
+            else if (ColorMode)
+            {
+                switch (e.Button)
+                {
+                    case MouseButtons.Left:
+
+                        pointColor = new ColorPoint
+                        {
+                            X = e.X,
+                            Y = e.Y,
+                        };
+
+                        emitter.impactPoints.Add(pointColor);
+                        break;
+
+                    case MouseButtons.Right:
+                        ColorPoint p = null;
+                        foreach (var point in emitter.impactPoints)
+                        {
+                            if (point.MouseIn(e) && point is ColorPoint)
+                            {
+                                p = (ColorPoint)point;
+                            }
+                        }
+                        emitter.impactPoints.Remove(p);
+                        break;
+
+                }
+            }
 
         }
         private void addGraviton_Click(object sender, EventArgs e)
@@ -210,6 +245,7 @@ namespace ParticleSystem
                 AddGravitonMode = true;
                 BounceMode = false;
                 PortalMode = false;
+                ColorMode = false;
 
             }
             else
@@ -246,6 +282,7 @@ namespace ParticleSystem
                 PortalMode = true;
                 AddGravitonMode = false;
                 BounceMode = false;
+                ColorMode = false;
                 portal = new Portal
                 {
                     X = 100,
@@ -299,6 +336,7 @@ namespace ParticleSystem
                 AddGravitonMode = false;
                 PortalMode = false;
                 BounceMode = true;
+                ColorMode = false;
 
             }
             else
@@ -364,13 +402,13 @@ namespace ParticleSystem
         }
         private void SnowOne_Click(object sender, EventArgs e)
         {
-             
+
             List<IImpactPoint> impactPoints = new List<IImpactPoint>(emitter.impactPoints);
             if (SnowOneMode)
             {
                 if (this.emitter != null)
                 {
-                  
+
                     emitters.Remove(emitter);
                 }
                 picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
@@ -391,6 +429,7 @@ namespace ParticleSystem
                 emitters.Add(this.emitter);
                 SnowOneMode = false;
                 this.SnowOne.Text = "One";
+                ParticleColorful.p = false;
             }
             else
             {
@@ -400,7 +439,7 @@ namespace ParticleSystem
                 }
                 this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
                 {
-                    
+
                     Direction = 0,
                     Spreading = 10,
                     SpeedMin = 10,
@@ -416,11 +455,23 @@ namespace ParticleSystem
                 emitters.Add(this.emitter);
                 SnowOneMode = true;
                 this.SnowOne.Text = "Snow";
+                ParticleColorful.p = true;
             }
         }
 
-        
-
-
+        private void addColor_Click(object sender, EventArgs e)
+        {
+            if (!ColorMode )
+            {
+                AddGravitonMode = false;
+                PortalMode = false;
+                BounceMode = false;
+                ColorMode = true;
+            }
+            else
+            {
+                ColorMode = false;
+            }
+        }
     }
 }

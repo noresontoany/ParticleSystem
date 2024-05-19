@@ -44,6 +44,7 @@
             ClearBounce = new Button();
             MouseBou = new Button();
             SnowOne = new Button();
+            addColor = new Button();
             ((System.ComponentModel.ISupportInitialize)picDisplay).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbDirection).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbGraviton).BeginInit();
@@ -193,11 +194,22 @@
             SnowOne.UseVisualStyleBackColor = true;
             SnowOne.Click += SnowOne_Click;
             // 
+            // addColor
+            // 
+            addColor.Location = new Point(1127, 205);
+            addColor.Name = "addColor";
+            addColor.Size = new Size(75, 23);
+            addColor.TabIndex = 14;
+            addColor.Text = "Color";
+            addColor.UseVisualStyleBackColor = true;
+            addColor.Click += addColor_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1429, 541);
+            Controls.Add(addColor);
             Controls.Add(SnowOne);
             Controls.Add(MouseBou);
             Controls.Add(ClearBounce);
@@ -240,5 +252,6 @@
         private Button ClearBounce;
         private Button MouseBou;
         private Button SnowOne;
+        private Button addColor;
     }
 }
