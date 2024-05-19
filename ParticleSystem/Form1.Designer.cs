@@ -40,6 +40,9 @@
             MouseGravito = new Button();
             ClearGravitos = new Button();
             portalClear = new Button();
+            addBounce = new Button();
+            ClearBounce = new Button();
+            MouseBou = new Button();
             ((System.ComponentModel.ISupportInitialize)picDisplay).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbDirection).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbGraviton).BeginInit();
@@ -149,11 +152,44 @@
             portalClear.UseVisualStyleBackColor = true;
             portalClear.Click += portalClear_Click;
             // 
+            // addBounce
+            // 
+            addBounce.Location = new Point(1127, 147);
+            addBounce.Name = "addBounce";
+            addBounce.Size = new Size(75, 23);
+            addBounce.TabIndex = 10;
+            addBounce.Text = "addBounce";
+            addBounce.UseVisualStyleBackColor = true;
+            addBounce.Click += addBounce_Click;
+            // 
+            // ClearBounce
+            // 
+            ClearBounce.Location = new Point(1225, 147);
+            ClearBounce.Name = "ClearBounce";
+            ClearBounce.Size = new Size(75, 23);
+            ClearBounce.TabIndex = 11;
+            ClearBounce.Text = "ClearBounce";
+            ClearBounce.UseVisualStyleBackColor = true;
+            ClearBounce.Click += ClearBounce_Click;
+            // 
+            // MouseBou
+            // 
+            MouseBou.Location = new Point(1319, 147);
+            MouseBou.Name = "MouseBou";
+            MouseBou.Size = new Size(75, 23);
+            MouseBou.TabIndex = 12;
+            MouseBou.Text = "MouseBou";
+            MouseBou.UseVisualStyleBackColor = true;
+            MouseBou.Click += MouseBou_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1429, 541);
+            Controls.Add(MouseBou);
+            Controls.Add(ClearBounce);
+            Controls.Add(addBounce);
             Controls.Add(portalClear);
             Controls.Add(ClearGravitos);
             Controls.Add(MouseGravito);
@@ -188,5 +224,8 @@
         private Button MouseGravito;
         private Button ClearGravitos;
         private Button portalClear;
+        private Button addBounce;
+        private Button ClearBounce;
+        private Button MouseBou;
     }
 }

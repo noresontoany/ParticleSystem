@@ -14,9 +14,10 @@ namespace ParticleSystem
 
 
 
-        
+
         bool MouseGravitoMode = false;
-        Dictionary <string, bool> people = new Dictionary<string, bool>()
+        bool MouseBounceMode = false;
+        Dictionary<string, bool> people = new Dictionary<string, bool>()
         {
             {"portal", false},
             {"addgrav", false}
@@ -24,10 +25,15 @@ namespace ParticleSystem
 
         bool AddGravitonMode = false;
         bool PortalMode = false;
+        bool BounceMode = false;
 
         Portal portal;
         GravityPoint point;
+        BouncePoint pointBounce;
+        
+
         GravityPoint Mousepoint;
+        BouncePoint MousepointBounce;
 
         public Form1()
         {
@@ -40,13 +46,13 @@ namespace ParticleSystem
             {
                 Direction = 0,
                 Spreading = 10,
-                SpeedMin = 10,
-                SpeedMax = 10,
+                SpeedMin = 3,
+                SpeedMax = 5,
                 ColorFrom = Color.Gold,
                 ColorTo = Color.FromArgb(0, Color.Red),
                 ParticlesPerTick = 10,
-                X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 2,
+                X = 30,
+                Y = 30,
             };
 
             emitters.Add(this.emitter); // все равно добавляю в список emitters, чтобы он рендерился и обновлялся
@@ -82,6 +88,11 @@ namespace ParticleSystem
                 Mousepoint.X = e.X;
                 Mousepoint.Y = e.Y;
             }
+            else if (MouseBounceMode)
+            {
+                MousepointBounce.X = e.X;
+                MousepointBounce.Y = e.Y; 
+            }
 
         }
 
@@ -93,11 +104,11 @@ namespace ParticleSystem
 
         private void tbGraviton_Scroll(object sender, EventArgs e)
         {
-            
+
         }
 
 
-       
+
         private bool ModeManager()
         {
             bool PortalMode = false;
@@ -164,11 +175,38 @@ namespace ParticleSystem
                         break;
 
                 }
-                
+            }
+            else if (BounceMode)
+            {
+                switch (e.Button)
+                {
+                    case MouseButtons.Left:
+
+                        pointBounce = new BouncePoint
+                        {
+                            X = e.X,
+                            Y = e.Y,
+                        };
+
+                        emitter.impactPoints.Add(pointBounce);
+                        break;
+
+                    case MouseButtons.Right:
+                        BouncePoint p = null;
+                        foreach (var point in emitter.impactPoints)
+                        {
+                            if (point.MouseIn(e) && point is BouncePoint)
+                            {
+                                p = (BouncePoint)point;
+                            }
+                        }
+                        emitter.impactPoints.Remove(p);
+                        break;
+
+                }
             }
 
         }
-
         private void addGraviton_Click(object sender, EventArgs e)
         {
 
@@ -176,6 +214,7 @@ namespace ParticleSystem
             {
 
                 AddGravitonMode = true;
+                BounceMode = false;
                 PortalMode = false;
 
             }
@@ -184,28 +223,6 @@ namespace ParticleSystem
                 AddGravitonMode = false;
             }
         }
-
-        private void MouseGravito_Click(object sender, EventArgs e)
-        {
-            if (!MouseGravitoMode)
-            {
-                MouseGravitoMode = true;
-                Mousepoint = new GravityPoint
-                {
-                    X = picDisplay.Width,
-                    Y = picDisplay.Height
-                };
-                emitter.impactPoints.Add(Mousepoint);
-            }
-            else
-            {
-                MouseGravitoMode = false;
-                emitter.impactPoints.Remove(Mousepoint);
-                Mousepoint = null;
-
-            }
-        }
-
         private void ClearGravitos_Click(object sender, EventArgs e)
         {
 
@@ -223,6 +240,8 @@ namespace ParticleSystem
 
         }
 
+
+
         private void portalClear_Click(object sender, EventArgs e)
         {
             emitter.impactPoints.Remove(portal);
@@ -235,6 +254,7 @@ namespace ParticleSystem
 
                 PortalMode = true;
                 AddGravitonMode = false;
+                BounceMode = false;
                 portal = new Portal
                 {
                     X = 100,
@@ -250,16 +270,19 @@ namespace ParticleSystem
             }
         }
 
+
+
         private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
         {
             int ps = 0;
+
             if (e.Delta > 0)
             {
-                ps =  10;
+                ps = 10;
             }
             else
             {
-                ps = - 10;
+                ps = -10;
             }
 
             foreach (var point in emitter.impactPoints)
@@ -270,8 +293,90 @@ namespace ParticleSystem
                 {
                     point.Power += ps;
                 }
-                  
-             
+
+
+            }
+        }
+
+
+
+
+        private void addBounce_Click(object sender, EventArgs e)
+        {
+
+            if (!BounceMode)
+            {
+                AddGravitonMode = false;
+                PortalMode = false;
+                BounceMode = true;
+
+            }
+            else
+            {
+                BounceMode = false;
+            }
+        }
+        private void ClearBounce_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < emitter.impactPoints.Count(); i++)
+            {
+                if (emitter.impactPoints[i] is BouncePoint)
+                {
+                    emitter.impactPoints[i] = null;
+                    emitter.impactPoints.Remove(emitter.impactPoints[i]);
+                    i--;
+                }
+
+            }
+        }
+
+
+
+
+
+
+
+        private void MouseBou_Click(object sender, EventArgs e)
+        {
+            if (!MouseBounceMode)
+            {
+                MouseGravitoMode = false;
+                MouseBounceMode = true;
+                MousepointBounce = new BouncePoint
+                {
+                    X = picDisplay.Width,
+                    Y = picDisplay.Height
+                };
+                emitter.impactPoints.Add(MousepointBounce);
+            }
+            else
+            {
+                MouseBounceMode = false;
+                emitter.impactPoints.Remove(Mousepoint);
+                MousepointBounce = null;
+            }
+
+        }
+        private void MouseGravito_Click(object sender, EventArgs e)
+        {
+            if (!MouseGravitoMode)
+            {
+                MouseGravitoMode = true;
+              
+                MouseBounceMode = false;
+                Mousepoint = new GravityPoint
+                {
+                    X = picDisplay.Width,
+                    Y = picDisplay.Height
+                };
+                emitter.impactPoints.Add(Mousepoint);
+            }
+            else
+            {
+                MouseGravitoMode = false;
+                emitter.impactPoints.Remove(Mousepoint);
+                Mousepoint = null;
+
             }
         }
     }
