@@ -35,6 +35,11 @@
             lblDirection = new Label();
             tbGraviton = new TrackBar();
             tbGraviton2 = new TrackBar();
+            portalBtn = new Button();
+            addGraviton = new Button();
+            MouseGravito = new Button();
+            ClearGravitos = new Button();
+            portalClear = new Button();
             ((System.ComponentModel.ISupportInitialize)picDisplay).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbDirection).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbGraviton).BeginInit();
@@ -49,6 +54,7 @@
             picDisplay.Size = new Size(1083, 436);
             picDisplay.TabIndex = 0;
             picDisplay.TabStop = false;
+            picDisplay.MouseClick += picDisplay_MouseClick;
             picDisplay.MouseMove += picDisplay_MouseMove;
             // 
             // timer1
@@ -91,13 +97,68 @@
             tbGraviton2.Name = "tbGraviton2";
             tbGraviton2.Size = new Size(104, 45);
             tbGraviton2.TabIndex = 4;
-            tbGraviton2.Scroll += tbGraviton2_Scroll;
+            // 
+            // portalBtn
+            // 
+            portalBtn.ForeColor = SystemColors.ActiveCaptionText;
+            portalBtn.Location = new Point(1127, 33);
+            portalBtn.Name = "portalBtn";
+            portalBtn.Size = new Size(75, 23);
+            portalBtn.TabIndex = 5;
+            portalBtn.Text = "portal";
+            portalBtn.UseVisualStyleBackColor = true;
+            portalBtn.Click += portalBtn_Click;
+            // 
+            // addGraviton
+            // 
+            addGraviton.Location = new Point(1127, 92);
+            addGraviton.Name = "addGraviton";
+            addGraviton.Size = new Size(75, 23);
+            addGraviton.TabIndex = 6;
+            addGraviton.Text = "AddGraviton";
+            addGraviton.UseVisualStyleBackColor = true;
+            addGraviton.Click += addGraviton_Click;
+            // 
+            // MouseGravito
+            // 
+            MouseGravito.Location = new Point(1319, 92);
+            MouseGravito.Name = "MouseGravito";
+            MouseGravito.Size = new Size(75, 23);
+            MouseGravito.TabIndex = 7;
+            MouseGravito.Text = "MouseGravito";
+            MouseGravito.UseVisualStyleBackColor = true;
+            MouseGravito.Click += MouseGravito_Click;
+            // 
+            // ClearGravitos
+            // 
+            ClearGravitos.Location = new Point(1225, 92);
+            ClearGravitos.Name = "ClearGravitos";
+            ClearGravitos.Size = new Size(75, 23);
+            ClearGravitos.TabIndex = 8;
+            ClearGravitos.Text = "ClearGravitos";
+            ClearGravitos.UseVisualStyleBackColor = true;
+            ClearGravitos.Click += ClearGravitos_Click;
+            // 
+            // portalClear
+            // 
+            portalClear.Location = new Point(1225, 33);
+            portalClear.Name = "portalClear";
+            portalClear.Size = new Size(75, 23);
+            portalClear.TabIndex = 9;
+            portalClear.Text = "portalClear";
+            portalClear.UseVisualStyleBackColor = true;
+            portalClear.Click += portalClear_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1122, 541);
+            ClientSize = new Size(1429, 541);
+            Controls.Add(portalClear);
+            Controls.Add(ClearGravitos);
+            Controls.Add(MouseGravito);
+            Controls.Add(addGraviton);
+            Controls.Add(portalBtn);
             Controls.Add(tbGraviton2);
             Controls.Add(tbGraviton);
             Controls.Add(lblDirection);
@@ -122,5 +183,10 @@
         private Label lblDirection;
         private TrackBar tbGraviton;
         private TrackBar tbGraviton2;
+        private Button portalBtn;
+        private Button addGraviton;
+        private Button MouseGravito;
+        private Button ClearGravitos;
+        private Button portalClear;
     }
 }
