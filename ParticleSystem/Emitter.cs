@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace ParticleSystem
 {
-    internal class Emitter
+    public class Emitter
     {
         public List<Particle> particles = new List<Particle>();
+        public List<IImpactPoint> impactPoints = new List<IImpactPoint>(); // <<< ТАК ВОТ // тут буду хранится точки притяжения
+        public int ParticlesCount = 500;
 
         public int MousePositionX;
         public int MousePositionY;
@@ -22,7 +24,7 @@ namespace ParticleSystem
 
             for (var i = 0; i < 10; ++i)
             {
-                if (particles.Count < 500) // пока частиц меньше 500 генерируем новые
+                if (particles.Count < ParticlesCount) // пока частиц меньше 500 генерируем новые
                 {
 
                     var particle = new ParticleColorful();
@@ -31,6 +33,7 @@ namespace ParticleSystem
                     particle.ToColor = Color.FromArgb(0, Color.Magenta);
                     particle.X = MousePositionX;
                     particle.Y = MousePositionY;
+                    ResetParticle(particle);
                     particles.Add(particle);
                 }
                 else
@@ -44,30 +47,40 @@ namespace ParticleSystem
                 particle.Life -= 1;  // не трогаем
                 if (particle.Life < 0)
                 {
+                    ResetParticle(particle); // заменили этот блок на вызов сброса частицы 
+                    //particle.Life = 20 + Particle.rand.Next(100);
+                    //particle.X = MousePositionX;
+                    //particle.Y = MousePositionY;
 
-                    particle.Life = 20 + Particle.rand.Next(100);
-                    particle.X = MousePositionX;
-                    particle.Y = MousePositionY;
+                    ///* это убираем
+                    //particle.Direction = Particle.rand.Next(360);
+                    //particle.Speed = 1 + Particle.rand.Next(10);
+                    //*/
 
-                    /* это убираем
-                    particle.Direction = Particle.rand.Next(360);
-                    particle.Speed = 1 + Particle.rand.Next(10);
-                    */
+                    ///* ЭТО ДОБАВЛЯЮ, тут сброс состояния частицы */
+                    //var direction = (double)Particle.rand.Next(360);
+                    //var speed = 1 + Particle.rand.Next(10);
 
-                    /* ЭТО ДОБАВЛЯЮ, тут сброс состояния частицы */
-                    var direction = (double)Particle.rand.Next(360);
-                    var speed = 1 + Particle.rand.Next(10);
+                    //particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
+                    //particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
+                    ///* конец ЭТО ДОБАВЛЯЮ  */
 
-                    particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
-                    particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
-                    /* конец ЭТО ДОБАВЛЯЮ  */
-
-                    // это не трогаем
-                    particle.Radius = 2 + Particle.rand.Next(10);
+                    //// это не трогаем
+                    //particle.Radius = 2 + Particle.rand.Next(10);
                 }
 
                 else
                 {
+                    // сделаем сначала для одной точки
+                    // и так считаем вектор притяжения к точке
+                    foreach (var point in impactPoints)
+                    {
+                        point.ImpactParticle(particle);
+                    }
+
+                    particle.SpeedX += GravitationX;
+                    particle.SpeedY += GravitationY;
+
                     particle.X += particle.SpeedX;
                     particle.Y += particle.SpeedY;
                 }
@@ -83,6 +96,27 @@ namespace ParticleSystem
 
                 //MessageBox.Show("asd");
             }
+
+            foreach (var point in impactPoints)
+            {
+                point.Render(g); // это добавили
+            }
         }
+
+        public virtual void ResetParticle(Particle particle)
+        {
+            particle.Life = 20 + Particle.rand.Next(100);
+            particle.X = MousePositionX;
+            particle.Y = MousePositionY;
+
+            var direction = (double)Particle.rand.Next(360);
+            var speed = 1 + Particle.rand.Next(10);
+
+            particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
+            particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
+
+            particle.Radius = 2 + Particle.rand.Next(10);
+        }
+
     }
 }

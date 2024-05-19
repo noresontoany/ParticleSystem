@@ -3,14 +3,38 @@ namespace ParticleSystem
     public partial class Form1 : Form
     {
         //List<Particle> particles = new List<Particle>();
-        Emitter emitter = new Emitter(); // добавили эмиттер
-        // добавляем переменные для хранения положения мыши
-
+        //Emitter emitter = new Emitter(); // добавили эмиттер
+                                         // добавляем переменные для хранения положения мыши
+        Emitter emitter;
         public Form1()
         {
             InitializeComponent();
             
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
+            emitter = new TopEmitter
+            {
+                Width = picDisplay.Width,
+                GravitationY = 0.25f
+            };
+            emitter.impactPoints.Add(new GravityPoint
+            {
+                X = (float)(picDisplay.Width * 0.25),
+                Y = picDisplay.Height / 2
+            });
+
+            // в центре антигравитон
+            emitter.impactPoints.Add(new AntiGravityPoint
+            {
+                X = picDisplay.Width / 2,
+                Y = picDisplay.Height / 2
+            });
+
+            // снова гравитон
+            emitter.impactPoints.Add(new GravityPoint
+            {
+                X = (float)(picDisplay.Width * 0.75),
+                Y = picDisplay.Height / 2
+            });
 
             ////генерирую 500 частиц
             //for (var i = 0; i < 500; ++i)
